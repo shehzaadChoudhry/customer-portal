@@ -3,175 +3,209 @@ import { useNavigate } from "react-router-dom";
 import "../CSS/LoginPage.css";
 import axios from "axios";
 
-function SignupPage() {
-  const [username, setUsername] = useState("");
-  const [userEmail, setUserEmail] = useState("");
-  const [userPassword, setUserPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [dob, setDob] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+const validateForm = (fields) => {
+  const errors = {};
 
-  const [errorMessage, setErrorMessage] = useState("");
-  const [mobileError, setMobileError] = useState("");
+  if (!fields.firstName) errors.firstName = "First Name is required.";
+  if (!fields.lastName) errors.lastName = "Last Name is required.";
+  if (!fields.username) errors.username = "Username is required.";
+  if (!fields.userEmail) errors.userEmail = "Email is required.";
+  if (!fields.userPassword) errors.userPassword = "Password is required.";
+  if (fields.userPassword !== fields.confirmPassword)
+    errors.passwordMismatch = "Passwords do not match.";
+  if (!fields.mobile) errors.mobile = "Mobile number is required.";
+  if (fields.mobile.length !== 10 || isNaN(fields.mobile))
+    errors.mobile = "Mobile number must be exactly 10 digits.";
+  if (!fields.dob) errors.dob = "Date of Birth is required.";
+
+  return errors;
+};
+
+function SignupPage() {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    username: "",
+    userEmail: "",
+    userPassword: "",
+    mobile: "",
+    dob: "",
+  });
+
+  const [errorMessages, setErrorMessages] = useState({});
 
   const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
 
-    // Basic validation
-    if (!username || !userEmail || !userPassword || !mobile || !dob || !firstName || !lastName) {
-      setErrorMessage("Please fill all fields correctly.");
+    const errors = validateForm(formData);
+    if (Object.keys(errors).length > 0) {
+      setErrorMessages(errors);
       return;
     }
-
-    if (userPassword !== confirmPassword) {
-      setErrorMessage("Passwords do not match.");
-      return;
-    }
-
-    if (mobile.length !== 10 || isNaN(mobile)) {
-      setMobileError("Mobile number must be exactly 10 digits.");
-      return;
-    } else {
-      setMobileError("");
-    }
-
     try {
-      const response = await axios.post("http://localhost:8080/api/users/signup", {
-        username, userEmail, userPassword, mobile, dob, firstName, lastName
-      });
+      const apiUrl = process.env.REACT_APP_BACKEND_APP_API_URL;
+      const response = await axios.post(`${apiUrl}/signup`, formData);
+
       if (response.status === 200) {
-        alert("Details captured successfully.");
+        alert(response.data.message);
         navigate("/");
-      } else if (response.status === 409) {
-        setErrorMessage(response.data.message || "Email already exists, please click on login.");
+      } else {
+        setErrorMessages({
+          general:
+            response.data.message ||
+            "Email already exists, please click on login.",
+        });
+        alert(response.data.message || "An error occurred, please try again.");
       }
     } catch (error) {
       if (error.response) {
-        console.error("Error occurred: ", error);
-        setErrorMessage(error.response.data.message || "An error occurred during sign-up, please try again.");
+        setErrorMessages({
+          general:
+            error.response.data.message ||
+            "An error occurred during sign-up, please try again.",
+        });
       } else if (error.request) {
-        console.error("No response received:", error.request);
-        setErrorMessage("No response from the server. Please try again later.");
+        setErrorMessages({
+          general: "No response from the server. Please try again later.",
+        });
       } else {
-        console.error("Error setting up the request:", error.message);
-        setErrorMessage("An unexpected error occurred. Please try again.");
+        setErrorMessages({
+          general: "An unexpected error occurred. Please try again.",
+        });
       }
     }
+  };
 
-    setUsername("");
-    setUserEmail("");
-    setUserPassword("");
-    setConfirmPassword("");
-    setMobile("");
-    setDob("");
-    setFirstName("");
-    setLastName("");
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleLogin = () => {
     navigate("/");
   };
 
-  const handleMobileChange = (e) => {
-    const input = e.target.value;
-    if (/^\d{0,10}$/.test(input)) {
-      setMobile(input);
-    }
-  };
-
   return (
     <div>
-      <div className="signup-container">
+      <div className="login-container">
         <h2>Sign Up</h2>
         <h5>Welcome, please Sign Up!</h5>
-        <form onSubmit={handleSignUp} className="signup-form">
+        <form onSubmit={handleSignUp} className="login-form">
           <div className="input-group">
             <label>First Name</label>
             <input
               type="text"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleInputChange}
               placeholder="Enter your first name"
             />
+            {errorMessages.firstName && (
+              <p className="error">{errorMessages.firstName}</p>
+            )}
           </div>
 
           <div className="input-group">
             <label>Last Name</label>
             <input
               type="text"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleInputChange}
               placeholder="Enter your last name"
             />
+            {errorMessages.lastName && (
+              <p className="error">{errorMessages.lastName}</p>
+            )}
           </div>
 
           <div className="input-group">
-            <label>Username</label>
+            <label>username</label>
             <input
               type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              name="username"
+              value={formData.username}
+              onChange={handleInputChange}
               placeholder="Enter your username"
             />
+            {errorMessages.username && (
+              <p className="error">{errorMessages.username}</p>
+            )}
           </div>
 
           <div className="input-group">
             <label>Email</label>
             <input
               type="email"
-              value={userEmail}
-              onChange={(e) => setUserEmail(e.target.value)}
+              name="userEmail"
+              value={formData.userEmail}
+              onChange={handleInputChange}
               placeholder="Enter your email"
             />
+            {errorMessages.userEmail && (
+              <p className="error">{errorMessages.userEmail}</p>
+            )}
           </div>
 
           <div className="input-group">
             <label>Password</label>
             <input
               type="password"
-              value={userPassword}
-              onChange={(e) => setUserPassword(e.target.value)}
+              name="userPassword"
+              value={formData.userPassword}
+              onChange={handleInputChange}
               placeholder="Enter your password"
             />
+            {errorMessages.userPassword && (
+              <p className="error">{errorMessages.userPassword}</p>
+            )}
           </div>
 
           <div className="input-group">
             <label>Confirm password</label>
             <input
               type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleInputChange}
               placeholder="Confirm your password"
             />
+            {errorMessages.passwordMismatch && (
+              <p className="error">{errorMessages.passwordMismatch}</p>
+            )}
           </div>
 
           <div className="input-group">
             <label>Mobile No.</label>
             <input
               type="tel"
-              value={mobile}
-              onChange={handleMobileChange}
+              name="mobile"
+              value={formData.mobile}
+              onChange={handleInputChange}
               placeholder="Enter your mobile number"
               maxLength={10}
             />
-            {mobileError && <p className="error">{mobileError}</p>}
+            {errorMessages.mobile && (
+              <p className="error">{errorMessages.mobile}</p>
+            )}
           </div>
 
           <div className="input-group">
             <label>DOB</label>
             <input
               type="date"
-              value={dob}
-              onChange={(e) => setDob(e.target.value)}
-              placeholder="Enter your date of birth"
+              name="dob"
+              value={formData.dob}
+              onChange={handleInputChange}
             />
+            {errorMessages.dob && <p className="error">{errorMessages.dob}</p>}
           </div>
 
-          {errorMessage && <p className="error">{errorMessage}</p>}
+          {errorMessages.general && (
+            <p className="error">{errorMessages.general}</p>
+          )}
 
           <div className="button-group">
             <button type="submit">Sign Up</button>

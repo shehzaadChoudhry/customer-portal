@@ -1,0 +1,41 @@
+.dashboard-container {
+    position: relative;
+    padding: 20px;
+    background-color: #f7f7f7;
+  }
+  
+  .logout-button-container {
+    position: absolute;
+    top: 20px; 
+    right: 20px; 
+  }
+  
+  .logout-button {
+    width: 75%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .logout-button:hover {
+    background-color: #45a049;
+  }
+  
+  .logout-button:active {
+    background-color: #3e8e41;
+  }
+
+  .logout-button:focus {
+    outline: none;
+  }
+  

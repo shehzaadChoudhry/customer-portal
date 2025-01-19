@@ -1,133 +1,132 @@
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    background-color: #f7f7f7;
+  margin: 0;
+  background-color: #f7f7f7;
 }
 
 .login-container {
-    width: 100%;
-    max-width: 380px;
-    padding: 30px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  width: 100%;
 }
 
-.login-container:hover {
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  width: 100%;
+  max-width: 320px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in-out;
 }
 
-.signup-container {
-    width: 100%;
-    max-width: 380px;
-    padding: 30px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease-in-out;
-}
-
-.signup-container:hover {
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+.login-form:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
 }
 
 h2 {
-    text-align: center;
-    font-size: 1.8rem;
-    color: #333;
-    margin-bottom: 20px;
-    font-family: 'Arial', sans-serif;
-}
-
-h5 {
-    text-align: center;
-    font-size: 1rem;
-    color: #333;
-    margin-bottom: px;
-    font-family: 'Arial', sans-serif;
+  text-align: center;
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 15px;
+  font-family: "Arial", sans-serif;
 }
 
 .input-group {
-    margin-bottom: 20px;
-    padding-right: 20px;
+  margin-bottom: 15px;
+  width: 100%;
 }
 
 .input-group label {
-    display: block;
-    font-weight: 500;
-    margin-bottom: 6px;
-    color: #555;
-    font-size: 0.95rem;
+  display: block;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #555;
+  font-size: 0.95rem;
 }
 
 .input-group input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    font-size: 1rem;
-    color: #555;
-    background-color: #fafafa;
-    transition: border-color 0.3s ease-in-out;
+  width: 93%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: #555;
+  background-color: #fafafa;
+  transition: border-color 0.3s ease-in-out;
 }
 
 .input-group input:focus {
-    border-color: #007bff;
-    outline: none;
-    background-color: #ffffff;
+  border-color: #007bff;
+  outline: none;
+  background-color: #ffffff;
 }
 
 .button-group {
-    margin-top: 10px;
-    text-align: center;
+  margin-top: 10px;
+  width: 100%;
+  text-align: center;
 }
 
 button {
-    width: 65%;
-    padding: 12px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 55%;
+  padding: 12px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 button:hover {
-    background-color: #45a049;
+  background-color: #45a049;
 }
 
 button:active {
-    background-color: #3e8e41;
+  background-color: #3e8e41;
 }
 
 button:focus {
-    outline: none;
+  outline: none;
 }
 
 button.secondary {
-    background-color: #007bff;
-    margin-top: 15px;
+  background-color: #007bff;
+  margin-top: 15px;
 }
 
 button.secondary:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 .error {
-    color: #e74c3c;
-    font-size: 14px;
-    text-align: center;
-    margin-top: 10px;
-    font-family: 'Arial', sans-serif;
+  color: #e74c3c;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 10px;
+  font-family: "Arial", sans-serif;
 }
 
 input::placeholder {
-    color: #888;
+  color: #888;
+}
+
+.success-message {
+  font-weight: bold;
+  color: green;
+}
+
+.error-message {
+  font-weight: bold;
+  color: red;
 }
